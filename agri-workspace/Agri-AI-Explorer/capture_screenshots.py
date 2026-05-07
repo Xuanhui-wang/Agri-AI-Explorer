@@ -2,13 +2,15 @@ import os
 import time
 import subprocess
 import pyautogui
+from pathlib import Path
 
 # Ensure output directory exists
-output_dir = r"D:\3.创AI案例征集指南与模板\图片(1)\系统截图"
-os.makedirs(output_dir, exist_ok=True)
+project_root = Path(__file__).resolve().parent
+output_dir = project_root / "_screenshots"
+output_dir.mkdir(parents=True, exist_ok=True)
 
 # Path to the main application
-app_path = r"D:\3.创AI案例征集指南与模板\agri-workspace\Agri-AI-Explorer\main.py"
+app_path = project_root / "main.py"
 
 # Start the application
 print("Starting Agri-AI Explorer...")
@@ -25,7 +27,7 @@ pyautogui.press('up') # Maximize on Windows
 time.sleep(2)
 
 def take_screenshot(name):
-    path = os.path.join(output_dir, f"{name}.png")
+    path = output_dir / f"{name}.png"
     screenshot = pyautogui.screenshot()
     screenshot.save(path)
     print(f"Saved screenshot: {path}")

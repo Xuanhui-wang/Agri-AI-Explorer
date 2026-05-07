@@ -49,5 +49,8 @@ pip-wheel-metadata/
 Thumbs.db
 
 # Project-specific generated outputs
+agri-workspace/Agri-AI-Explorer/build/
+agri-workspace/Agri-AI-Explorer/dist/
 agri-workspace/media/
 _tmp_doc2/
+agri-workspace/修复方案_最简版.md

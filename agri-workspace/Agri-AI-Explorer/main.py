@@ -1,11 +1,14 @@
 import customtkinter as ctk
 import tkinter as tk
 from tkinter import ttk
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import threading
 import time
+import sys
+from pathlib import Path
 from sklearn.neural_network import MLPRegressor
 from sklearn.preprocessing import StandardScaler
 from scipy.signal import convolve2d
@@ -194,19 +197,29 @@ class App(ctk.CTk):
         return color_img, img_gray
 
     def play_animation(self):
-        import os
         import subprocess
         import tkinter.messagebox as messagebox
-        video_path = r"D:\3.创AI案例征集指南与模板\CNNWheatDisease.mp4"
-        if os.path.exists(video_path):
-            import sys
+        if hasattr(sys, "_MEIPASS"):
+            base_dir = Path(sys._MEIPASS)
+        else:
+            base_dir = Path(__file__).resolve().parent.parent
+
+        video_candidates = [
+            base_dir / "media" / "videos" / "cnn_anim" / "1080p60" / "CNNWheatDisease.mp4",
+            base_dir / "media" / "videos" / "cnn_anim" / "1080p60" / "partial_movie_files" / "CNNWheatDisease" / "uncached_00000.mp4",
+        ]
+        video_path = next((p for p in video_candidates if p.exists()), None)
+
+        if video_path:
+            video_path = str(video_path)
             if sys.platform == "win32":
                 os.startfile(video_path)
             else:
                 opener = "open" if sys.platform == "darwin" else "xdg-open"
                 subprocess.call([opener, video_path])
         else:
-            messagebox.showwarning("动画缺失", f"未找到动画视频文件：\n{video_path}")
+            tried = "\n".join(str(p) for p in video_candidates)
+            messagebox.showwarning("动画缺失", f"未找到动画视频文件，已尝试路径：\n{tried}")
 
     def apply_convolution(self, *args):
         kernel_name = self.kernel_var.get()
@@ -783,6 +796,7 @@ class App(ctk.CTk):
         import io
         import traceback
         import contextlib
+        import importlib.util
 
         code = self.code_editor.get("0.0", "end-1c")
         self.output_console.configure(state="normal")
@@ -790,6 +804,17 @@ class App(ctk.CTk):
         self.output_console.insert("end", "执行中...\n")
         self.output_console.update()
         self.output_console.delete("0.0", "end")
+
+        if ("import torch" in code or "from torch" in code) and importlib.util.find_spec("torch") is None:
+            self.output_console.insert(
+                "end",
+                "❌ 当前运行环境未检测到 PyTorch，无法执行模板2。\n"
+                "请在打包前确保环境已安装 torch，并将 torch 依赖一并打包。\n"
+                "[程序执行终止]"
+            )
+            self.output_console.see("end")
+            self.output_console.configure(state="disabled")
+            return
         
         # Capture stdout and stderr
         stdout_buffer = io.StringIO()

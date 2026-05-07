@@ -2,6 +2,7 @@ from manim import *
 import numpy as np
 from PIL import Image
 import os
+from pathlib import Path
 
 class CNNWheatDisease(Scene):
     def construct(self):
@@ -16,11 +17,12 @@ class CNNWheatDisease(Scene):
 
         # 2. 引入真实小麦图片
         # 使用用户提供的中度发病图片
-        img_path = r"D:\3.创AI案例征集指南与模板\图片(1)\中度\豫农912.jpg"
+        root_dir = Path(__file__).resolve().parent
+        img_path = root_dir / "assets" / "yunong912_mod.png"
         
         try:
             # Manim ImageMobject
-            wheat_img = ImageMobject(img_path)
+            wheat_img = ImageMobject(str(img_path))
             wheat_img.scale(3.0)
             wheat_img.to_edge(LEFT, buff=1.5)
             
