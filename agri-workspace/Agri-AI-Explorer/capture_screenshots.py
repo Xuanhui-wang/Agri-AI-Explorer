@@ -2,6 +2,7 @@ import os
 import time
 import subprocess
 import pyautogui
+import platform
 from pathlib import Path
 
 # Ensure output directory exists
@@ -22,8 +23,13 @@ print("Application started. Waiting for window to settle...")
 
 # We are going to maximize the window to ensure consistent screenshots
 # Assuming the window has focus
-pyautogui.press('win')
-pyautogui.press('up') # Maximize on Windows
+if platform.system() == 'Windows':
+    pyautogui.press('win')
+    pyautogui.press('up')
+elif platform.system() == 'Darwin':  # macOS
+    pyautogui.hotkey('command', 'ctrl', 'f')
+else:  # Linux
+    pyautogui.hotkey('super', 'up')
 time.sleep(2)
 
 def take_screenshot(name):
