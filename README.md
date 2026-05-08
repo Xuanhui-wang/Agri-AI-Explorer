@@ -78,7 +78,7 @@
    ```bash
    python main.py
    ```
-### 源码运行方式（适合教师）
+### 运行方式（适合教师）
 1. **下载**
    下载页面右侧Release中的可执行文件Agri-AI-Explorer.exe。
 2. **运行**
