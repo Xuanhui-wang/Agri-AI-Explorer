@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 from pathlib import Path
-from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs
+from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs, collect_submodules
 
 ROOT = Path(SPEC).resolve().parent
 
@@ -16,7 +16,7 @@ a = Analysis(
         ('assets', 'assets'),
         ('media/videos/cnn_anim/1080p60/CNNWheatDisease.mp4', 'media/videos/cnn_anim/1080p60'),
     ],
-    hiddenimports=['torch', 'torch.nn'],
+    hiddenimports=['torch', 'torch.nn'] + collect_submodules('unittest'),
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -25,7 +25,7 @@ a = Analysis(
         'torchvision', 'torchaudio',
         'PyQt5', 'PyQt6', 'PySide2', 'PySide6',
         'IPython', 'jupyter', 'jupyter_client', 'jupyter_core', 'notebook',
-        'pytest', 'unittest', 'nose',
+        'pytest', 'nose',
         'docutils', 'babel', 'jinja2.ext',
         'paramiko', 'cryptography.hazmat.backends.openssl',
     ],
