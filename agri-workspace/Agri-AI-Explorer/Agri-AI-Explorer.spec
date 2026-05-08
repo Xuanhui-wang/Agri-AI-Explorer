@@ -20,7 +20,15 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=[
+        'manim', 'sphinx', 'sphinxcontrib',
+        'torchvision', 'torchaudio',
+        'PyQt5', 'PyQt6', 'PySide2', 'PySide6',
+        'IPython', 'jupyter', 'jupyter_client', 'jupyter_core', 'notebook',
+        'pytest', 'unittest', 'nose',
+        'docutils', 'babel', 'jinja2.ext',
+        'paramiko', 'cryptography.hazmat.backends.openssl',
+    ],
     noarchive=False,
     optimize=0,
 )
@@ -29,19 +37,27 @@ pyz = PYZ(a.pure)
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries,
-    a.datas,
     [],
+    exclude_binaries=True,
     name='Agri-AI-Explorer',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
-    onefile=True,
+    upx=False,
     console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+)
+
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.datas,
+    strip=False,
+    upx=False,
+    upx_exclude=[],
+    name='Agri-AI-Explorer',
 )
