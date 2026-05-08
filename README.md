@@ -63,7 +63,7 @@
 
 本项目采用单机轻量化架构，所有界面均由现代化 GUI 库 `CustomTkinter` 渲染，数学计算与绘图依赖开源的 `Numpy`, `Scipy`, `Scikit-learn` 及 `Matplotlib`。
 
-### 源码运行方式 (适合开发者与教师)
+### 源码运行方式 (适合开发者)
 1. **环境准备**：
    请确保您的电脑已安装 Python 3.8 或以上版本。
 2. **克隆/下载项目**：
@@ -78,6 +78,11 @@
    ```bash
    python main.py
    ```
+### 源码运行方式（适合教师）
+1. **下载**
+   下载页面右侧Release中的可执行文件Agri-AI-Explorer.exe。
+2. **运行**
+   双击运行Agri-AI-Explorer.exe即可。
 
 ### 大模型 API 配置指南
 为了让“智能答疑”模块连接到真实的云端 AI 助教，您需要在代码中填入真实的 API Key：
